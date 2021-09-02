@@ -4,6 +4,7 @@ package com.example.ResumeRestApi.service;
 import com.example.ResumeRestApi.model.User;
 import com.example.ResumeRestApi.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +18,7 @@ public class CustomUserServiceDetail implements UserDetailsService {
 
     private final static String USER_NOT_FOUND_MSG = "user with username %s not found";
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
