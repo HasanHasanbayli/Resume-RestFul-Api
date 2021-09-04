@@ -1,7 +1,7 @@
 package com.example.ResumeRestApi.security;
 
-import com.example.ResumeRestApi.service.CustomUserServiceDetail;
-import lombok.AllArgsConstructor;
+import com.example.ResumeRestApi.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,25 +11,28 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Configuration
-@AllArgsConstructor
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+@RequiredArgsConstructor
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CustomUserServiceDetail userServiceDetail;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private  UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/registration/**")
-                .permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest()
-                .authenticated().and()
-                .formLogin()
+                .authenticated()
+                .and().formLogin()
                 .disable();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -37,12 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
-    @Bean
+
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider =
-                new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(userServiceDetail);
-        return provider;
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        authenticationProvider.setUserDetailsService(userService);
+        return authenticationProvider;
     }
 }
