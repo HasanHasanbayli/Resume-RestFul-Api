@@ -2,6 +2,14 @@ server:
   port: 8080
   servlet:
     context-path:
+      multipart:
+        enabled: true
+        # Threshold after which files are written to disk.
+        file-size-threshold: 2KB
+        # Max file size.
+        max-file-size: 200MB
+        # Max Request Size.
+        max-request-size: 215MB
   error:
     include-message: always
     include-binding-errors: always

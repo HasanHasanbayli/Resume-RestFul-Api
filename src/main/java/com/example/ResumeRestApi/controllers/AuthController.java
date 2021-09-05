@@ -23,26 +23,26 @@ import java.io.IOException;
 @RequestMapping("api/auth")
 @Slf4j
 public class AuthController {
-    private final AuthService authService;
-    private final MessageUtil messageUtil;
+//    private final AuthService authService;
+//    private final MessageUtil messageUtil;
+//
+//    public AuthController(MessageUtil messageUtil, AuthService authService) {
+//        this.messageUtil = messageUtil;
+//        this.authService = authService;
+//    }
 
-    public AuthController(MessageUtil messageUtil, AuthService authService) {
-        this.messageUtil = messageUtil;
-        this.authService = authService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<HttpStatus> register(@Valid @RequestBody RegisterDTO registerDTO,
-                                               HttpServletRequest request) throws MessagingException, IOException {
-        log.info("User {} is registering", registerDTO.getUsername());
-        return new ResponseEntity<>(
-                authService.registration(registerDTO, messageUtil.getUrl(request))
-        );
-    }
-
-    @PostMapping(path = "/login")
-    public ResponseEntity<TokenDTO> login(@Valid @RequestBody LoginDTO loginDTO) throws JsonProcessingException {
-        log.info("User with email {} is joining", loginDTO.getEmail());
-        return ResponseEntity.ok(authService.login(loginDTO));
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<HttpStatus> register(@Valid @RequestBody RegisterDTO registerDTO,
+//                                               HttpServletRequest request) throws MessagingException, IOException {
+//        log.info("User {} is registering", registerDTO.getUsername());
+//        return new ResponseEntity<>(
+//                authService.registration(registerDTO, messageUtil.getUrl(request))
+//        );
+//    }
+//
+//    @PostMapping(path = "/login")
+//    public ResponseEntity<TokenDTO> login(@Valid @RequestBody LoginDTO loginDTO) throws JsonProcessingException {
+//        log.info("User with email {} is joining", loginDTO.getEmail());
+//        return ResponseEntity.ok(authService.login(loginDTO));
+//    }
 }
